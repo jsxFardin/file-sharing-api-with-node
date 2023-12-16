@@ -7,6 +7,9 @@ const routes = require('../routes');
 */
 const app = express();
 
+// JSON parser
+app.use(express.json());
+
 // mount api v1 routes
 app.use('/v1', routes);
 

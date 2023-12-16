@@ -1,0 +1,15 @@
+const mongoose = require('mongoose');
+
+// Define a Mongoose schema for your model
+const FileSchema = new mongoose.Schema({
+    publicKey: String,
+    privateKey: String,
+    originalname: String,
+    mimetype: String,
+    size: Number,
+    filename: String,
+    path: String,
+});
+
+const FileModel = mongoose.model('File', FileSchema);
+module.exports = FileModel;
