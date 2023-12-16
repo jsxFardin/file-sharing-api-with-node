@@ -1,12 +1,11 @@
 const multer = require('multer');
 const { folderName } = require('./vars');
-const fs = require('fs');
-const path = require('path');
+const { createFolderIfNotExists } = require('../app/helpers/file.hlepler');
 
 // Set up multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        createFolderIfNotExists(folderName);
+        createFolderIfNotExists(folderName); // Create folder if not exists
         cb(null, folderName); // Store files in the "uploads" directory
     },
     filename: (req, file, cb) => {
@@ -17,10 +16,3 @@ const storage = multer.diskStorage({
 const multerUpload = multer({ storage: storage });
 
 module.exports = multerUpload;
-
-// Create folder if not exists
-const createFolderIfNotExists = (folder) => {
-    if (!fs.existsSync(folder)) {
-        fs.mkdirSync(folder);
-    }
-}
