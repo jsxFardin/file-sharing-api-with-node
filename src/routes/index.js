@@ -4,9 +4,13 @@ const fileController = require('../app/controllers/file.controller');
 
 router.get('/test', async (req, res) => {
 
-    res.send('this a file sharing rest api!')
+    res.send(__dirname)
 });
 
+// upload new file  
+router.post('/files', fileController.store);
+
+// show exsiting file  
 router.get('/files', fileController.show);
 
 module.exports = router;

@@ -6,15 +6,15 @@ const randomstring = require("randomstring");
  * upload new file
  * @public
  */
-exports.store = async (req, res, next) => {
+exports.store = async (req, res, next) => {    
     multer.single('file')(req, res, async (err) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ message: 'File upload failed' });
         }
         try {
-            // Create a new instance of the File model
-            const newFile = new File({
+            // store a new file
+            const newFile = await File.create({
                 originalname: req.file.originalname,
                 mimetype: req.file.mimetype,
                 size: req.file.size,
@@ -24,10 +24,7 @@ exports.store = async (req, res, next) => {
                 privateKey: randomstring.generate(11)
             });
 
-            // Save the file details to the database
-            await newFile.save();
-
-            res.status(200).json({ message: 'File uploaded successfully' });
+            res.status(200).json(newFile);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal Server Error' });
