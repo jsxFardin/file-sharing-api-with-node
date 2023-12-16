@@ -1,16 +1,21 @@
 const File = require('../models/file.model');
 const multer = require('../../config/multer');
 const randomstring = require("randomstring");
+const { sendJSONResponse } = require('../helpers/response.hlper');
+
 
 /**
  * upload new file
  * @public
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
  */
-exports.store = async (req, res, next) => {    
+exports.store = async (req, res) => {
     multer.single('file')(req, res, async (err) => {
         if (err) {
             console.error(err);
-            return res.status(500).json({ message: 'File upload failed' });
+            // common JSON response helper function
+            sendJSONResponse(res, 'File upload failed', 500);
         }
         try {
             // store a new file
@@ -24,10 +29,17 @@ exports.store = async (req, res, next) => {
                 privateKey: randomstring.generate(11)
             });
 
-            res.status(200).json(newFile);
+            const resData = {
+                publicKey: newFile.publicKey,
+                privateKey: newFile.privateKey
+            };
+
+            // common JSON response helper function
+            sendJSONResponse(res, 'File uploaded successfully', 200, resData);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Internal Server Error' });
+            // common JSON response helper function
+            sendJSONResponse(res, 'Internal Server Error', 500);
         }
     });
 };
@@ -35,6 +47,8 @@ exports.store = async (req, res, next) => {
 /**
  * show exsiting file
  * @public
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
  */
 exports.show = async (req, res) => {
     res.send('this file is from controller')
@@ -44,7 +58,9 @@ exports.show = async (req, res) => {
 /**
  * Delete file
  * @public
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
  */
-exports.delete = (req, res, next) => {
+exports.delete = (req, res) => {
 
 };

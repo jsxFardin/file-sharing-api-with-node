@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const fileController = require('../app/controllers/file.controller');
+const { store, show } = require('../app/controllers/file.controller');
 
 router.get('/test', async (req, res) => {
 
@@ -8,9 +8,9 @@ router.get('/test', async (req, res) => {
 });
 
 // upload new file  
-router.post('/files', fileController.store);
+router.post('/files', store);
 
 // show exsiting file  
-router.get('/files', fileController.show);
+router.get('/files', show);
 
 module.exports = router;
