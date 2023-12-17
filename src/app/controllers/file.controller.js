@@ -51,9 +51,8 @@ exports.store = async (req, res) => {
  * @param {object} res - The Express response object.
  */
 exports.show = async (req, res) => {
-    const publicKey = req.params.publicKey;
-
     try {
+        const publicKey = req.params.publicKey;
         const file = await File.findOne({ publicKey: publicKey });
 
         if (!file) {
