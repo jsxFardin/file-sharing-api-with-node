@@ -50,7 +50,6 @@ exports.store = async (req, res, next) => {
  */
 exports.show = async (req, res, next) => {
     try {
-        res.send(b);
         const publicKey = req.params.publicKey;
         const file = await File.findOne({ publicKey: publicKey });
 
