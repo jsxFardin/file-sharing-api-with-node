@@ -2,7 +2,7 @@ const File = require('../models/file.model');
 const multer = require('../../config/multer');
 const randomstring = require("randomstring");
 const { sendJSONResponse } = require('../helpers/response.hlper');
-
+const fs = require('fs').promises; // Using fs.promises for asynchronous file operations
 
 /**
  * upload new file
@@ -15,7 +15,7 @@ exports.store = async (req, res) => {
         if (err) {
             console.error(err);
             // common JSON response helper function
-            sendJSONResponse(res, 'File upload failed', 500);
+            return sendJSONResponse(res, 'File upload failed', 500);
         }
         try {
             // store a new file
@@ -35,11 +35,11 @@ exports.store = async (req, res) => {
             };
 
             // common JSON response helper function
-            sendJSONResponse(res, 'File uploaded successfully', 200, resData);
+            return sendJSONResponse(res, 'File uploaded successfully', 200, resData);
         } catch (error) {
             console.error(error);
             // common JSON response helper function
-            sendJSONResponse(res, 'Internal Server Error', 500);
+            return sendJSONResponse(res, 'Internal Server Error', 500);
         }
     });
 };
@@ -51,7 +51,24 @@ exports.store = async (req, res) => {
  * @param {object} res - The Express response object.
  */
 exports.show = async (req, res) => {
-    res.send('this file is from controller')
+    const publicKey = req.params.publicKey;
+
+    try {
+        const file = await File.findOne({ publicKey: publicKey });
+
+        if (!file) {
+            // common JSON response helper function
+            return sendJSONResponse(res, 'File not found', 404);
+        }
+        // Set the Content-Type header based on the file's mimetype
+        res.setHeader('Content-Type', file.mimetype);
+
+        res.sendFile(file.path, { root: './' });
+    } catch (error) {
+        console.error(error);
+        // common JSON response helper function
+        return sendJSONResponse(res, 'Internal Server Error', 500);
+    }
 };
 
 
@@ -61,6 +78,27 @@ exports.show = async (req, res) => {
  * @param {object} req - The Express request object.
  * @param {object} res - The Express response object.
  */
-exports.delete = (req, res) => {
+exports.destroy = async (req, res) => {
+    const privateKey = req.params.privateKey;
 
+    try {
+        const file = await File.findOne({ privateKey: privateKey });
+
+        if (!file) {
+            // common JSON response helper function
+            return sendJSONResponse(res, 'File not found', 404);
+        }
+        // delete file
+        await File.deleteOne({ privateKey: privateKey });
+
+        // Delete the file from the filesystem
+        await fs.unlink(file.path);
+
+        // common JSON response helper function
+        return sendJSONResponse(res, 'File deleted successfully', 200);
+    } catch (error) {
+        console.error(error);
+        // common JSON response helper function
+        return sendJSONResponse(res, 'Internal Server Error', 500);
+    }
 };

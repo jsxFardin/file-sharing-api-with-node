@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { store, show } = require('../app/controllers/file.controller');
+const { store, show, destroy } = require('../app/controllers/file.controller');
 
 router.get('/test', async (req, res) => {
 
@@ -11,6 +11,9 @@ router.get('/test', async (req, res) => {
 router.post('/files', store);
 
 // show exsiting file  
-router.get('/files', show);
+router.get('/files/:publicKey', show);
+
+// show exsiting file  
+router.delete('/files/:privateKey', destroy);
 
 module.exports = router;

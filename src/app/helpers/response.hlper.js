@@ -11,5 +11,5 @@ exports.sendJSONResponse = (res, message = 'Data retrieved successfully!', statu
     }
     if (data) responseData.data = data;
 
-    res.status(status).json(responseData);
+    return res.status(status).json(responseData);
 }
