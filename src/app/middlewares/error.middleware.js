@@ -8,7 +8,7 @@ const { mode } = require('../../config/vars');
  * @param {function} next - The next middleware function in the chain.
  */
 const handler = (err, req, res, next) => {
-    const response = {
+    const errorRes = {
         status: err.status || 500,
         message: err.message || 'Internal server error!',
         errors: err.errors,
@@ -16,10 +16,15 @@ const handler = (err, req, res, next) => {
     };
 
     if (mode !== 'development') {
-        delete response.stack;
+        delete errorRes.stack;
     }
 
-    res.status(response.status).json(response);
+    if (res.headersSent) {
+        next(errorRes);
+    } else {
+        res.status(errorRes.status).json(errorRes);
+    }
+
 };
 exports.handler = handler;
 
@@ -30,11 +35,10 @@ exports.handler = handler;
  * @param {function} next - The next middleware function in the chain.
  */
 exports.notFound = (req, res, next) => {
-    const response = {
+    const err = {
         status: 404,
-        message: 'URL not found!',
+        message: 'Request URL not found!',
     };
-
-    res.status(response.status).json(response);
+    next(err);
 };
 

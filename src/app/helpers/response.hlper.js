@@ -7,7 +7,8 @@
  */
 exports.sendJSONResponse = (res, message = 'Data retrieved successfully!', status = 200, data = null) => {
     const responseData = {
-        message: message
+        status: status,
+        message: message,
     }
     if (data) responseData.data = data;
 

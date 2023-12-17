@@ -9,13 +9,12 @@ const fs = require('fs').promises; // Using fs.promises for asynchronous file op
  * @public
  * @param {object} req - The Express request object.
  * @param {object} res - The Express response object.
+ * @param {function} next - The next middleware function in the chain.
  */
-exports.store = async (req, res) => {
+exports.store = async (req, res, next) => {
     multer.single('file')(req, res, async (err) => {
         if (err) {
-            console.error(err);
-            // common JSON response helper function
-            return sendJSONResponse(res, 'File upload failed', 500);
+            next(err);
         }
         try {
             // store a new file
@@ -35,11 +34,9 @@ exports.store = async (req, res) => {
             };
 
             // common JSON response helper function
-            return sendJSONResponse(res, 'File uploaded successfully', 200, resData);
+            return sendJSONResponse(res, 'File uploaded successfully', 201, resData);
         } catch (error) {
-            console.error(error);
-            // common JSON response helper function
-            return sendJSONResponse(res, 'Internal Server Error', 500);
+            next(error);
         }
     });
 };
@@ -49,9 +46,11 @@ exports.store = async (req, res) => {
  * @public
  * @param {object} req - The Express request object.
  * @param {object} res - The Express response object.
+ * @param {function} next - The next middleware function in the chain.
  */
-exports.show = async (req, res) => {
+exports.show = async (req, res, next) => {
     try {
+        res.send(b);
         const publicKey = req.params.publicKey;
         const file = await File.findOne({ publicKey: publicKey });
 
@@ -64,9 +63,7 @@ exports.show = async (req, res) => {
 
         res.sendFile(file.path, { root: './' });
     } catch (error) {
-        console.error(error);
-        // common JSON response helper function
-        return sendJSONResponse(res, 'Internal Server Error', 500);
+        next(error);
     }
 };
 
@@ -76,11 +73,12 @@ exports.show = async (req, res) => {
  * @public
  * @param {object} req - The Express request object.
  * @param {object} res - The Express response object.
+ * @param {function} next - The next middleware function in the chain.
  */
-exports.destroy = async (req, res) => {
-    const privateKey = req.params.privateKey;
-
+exports.destroy = async (req, res, next) => {
     try {
+        const privateKey = req.params.privateKey;
+
         const file = await File.findOne({ privateKey: privateKey });
 
         if (!file) {
@@ -94,10 +92,8 @@ exports.destroy = async (req, res) => {
         await fs.unlink(file.path);
 
         // common JSON response helper function
-        return sendJSONResponse(res, 'File deleted successfully', 200);
+        return sendJSONResponse(res, 'File deleted successfully');
     } catch (error) {
-        console.error(error);
-        // common JSON response helper function
-        return sendJSONResponse(res, 'Internal Server Error', 500);
+        next(error);
     }
 };
