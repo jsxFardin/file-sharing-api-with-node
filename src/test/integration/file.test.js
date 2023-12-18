@@ -49,6 +49,4 @@ describe('File Controller API Integration Tests', () => {
         expect(res.body.message).to.equal('File not found');
     });
 
-    // after(() => {
-    // });
 });
