@@ -3,7 +3,6 @@ const multer = require('../../config/multer');
 const randomstring = require("randomstring");
 const { sendJSONResponse } = require('../helpers/response.hlper');
 const fs = require('fs').promises; // Using fs.promises for asynchronous file operations
-
 /**
  * upload new file
  * @public

@@ -9,7 +9,7 @@ const FileSchema = new mongoose.Schema({
     size: Number,
     filename: String,
     path: String,
-});
+}, { timestamps: true });
 
 const FileModel = mongoose.model('File', FileSchema);
 module.exports = FileModel;

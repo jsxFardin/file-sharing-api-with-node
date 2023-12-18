@@ -1,7 +1,9 @@
 const express = require('express');
+const schedule = require('node-schedule');
+const { cleanupSchedule } = require('./vars');
 const routes = require('../routes');
 const error = require('../app/middlewares/error.middleware');
-
+const { cleanupUploadedFiles } = require('../app/schedulers/fileCleanup');
 /**
 * Express instance
 * @public
@@ -10,6 +12,9 @@ const app = express();
 
 // JSON parser
 app.use(express.json());
+
+// Schedule the cleanup job to run every two minutes
+schedule.scheduleJob(cleanupSchedule, cleanupUploadedFiles);
 
 // mount api routes
 app.use('/', routes);
