@@ -5,7 +5,7 @@ const { inactivityPeriod } = require('../../config/vars');
 async function cleanupUploadedFiles() {
     try {
 
-        // Set the inactivity threshold for 7 days
+        // Set the inactivity threshold
         const inactivity = inactivityPeriod * 24 * 60 * 60 * 1000;
 
         // Calculate the threshold date based on the inactivity period
