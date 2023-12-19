@@ -22,7 +22,7 @@ const handler = (err, req, res, next) => {
     if (res.headersSent) {
         next(errorRes);
     } else {
-        res.status(errorRes.status).json(errorRes);
+        return res.status(errorRes.status).json(errorRes);
     }
 
 };

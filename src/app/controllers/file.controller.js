@@ -14,6 +14,14 @@ exports.store = async (req, res, next) => {
     multer.single('file')(req, res, async (err) => {
         if (err) {
             next(err);
+            return true;
+        }
+        else if (!req.file) {
+            next({
+                status: 400,
+                message: 'File is required'
+            });
+            return true;
         }
         try {
             // store a new file
