@@ -6,6 +6,7 @@ module.exports = {
     folderName: process.env.FOLDER || 'uploads',
     dailyUploadLimit: process.env.DAILY_DOWNLOAD_LIMIT || 50,
     dailyDownloadLimit: process.env.DAILY_UPLOAD_LIMIT || 50,
+    uploadFileSize: process.env.UPLOAD_FILE_SIZE || 2,
     cleanupSchedule: process.env.CLEANUP_SCHEDULE || "0 0 * * *",
     inactivityPeriod: process.env.INACTIVITY_PERIOD || 7,
     mongo: {

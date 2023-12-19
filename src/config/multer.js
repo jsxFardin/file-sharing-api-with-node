@@ -1,5 +1,5 @@
 const multer = require('multer');
-const { folderName } = require('./vars');
+const { folderName, uploadFileSize } = require('./vars');
 const { createFolderIfNotExists } = require('../app/helpers/file.hlepler');
 
 // Set up multer storage
@@ -13,6 +13,11 @@ const storage = multer.diskStorage({
     },
 });
 
-const multerUpload = multer({ storage: storage });
+const multerUpload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * uploadFileSize
+    },
+});
 
 module.exports = multerUpload;

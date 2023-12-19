@@ -16,8 +16,12 @@ $ MODE=development
 $ PORT=3000
 $ FOLDER="uploads"
 $ MONGO_URI=mongodb://localhost:27017/db_name
+# daily download limit (defalut 50)
 $ DAILY_DOWNLOAD_LIMIT=50
+# daily upload limit (defalut 50)
 $ DAILY_UPLOAD_LIMIT=50
+# in MB max upload file size (by defalut 2 MB)
+$ UPLOAD_FILE_SIZE=2 
 
 # Schedule the cleanup job to run every day at midnight
 $ CLEANUP_SCHEDULE="0 0 * * *"
