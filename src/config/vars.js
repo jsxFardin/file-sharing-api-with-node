@@ -3,7 +3,7 @@ require('dotenv').config();
 module.exports = {
     mode: process.env.MODE || 'development',
     port: process.env.PORT || 3000,
-    clientURL: process.env.CLIENT_URL || 'http://localhost:3000',
+    clientURL: process.env.CLIENT_URL || 'http://localhost:5173',
     folderName: process.env.FOLDER || 'uploads',
     dailyUploadLimit: process.env.DAILY_DOWNLOAD_LIMIT || 50,
     dailyDownloadLimit: process.env.DAILY_UPLOAD_LIMIT || 50,

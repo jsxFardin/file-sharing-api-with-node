@@ -15,7 +15,7 @@ $ copy .env.example .env
 $ MODE=development
 # port (default 3000)
 $ PORT=3000
-# client url (default "http://localhost:3000")
+# client url (default "http://localhost:5173")
 $ CLIENT_URL="http://localhost:3000"
 # file upload folder name (default "uploads")
 $ FOLDER="uploads"
