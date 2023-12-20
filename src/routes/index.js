@@ -3,8 +3,8 @@ const router = express.Router();
 const { store, show, destroy } = require('../app/controllers/file.controller');
 const { downloadLimit, uploadLimit } = require('../app/middlewares/apiCallLimit.middleware');
 
-router.get('/test', async (req, res) => {
-    res.send(__dirname)
+router.get('/', async (req, res) => {
+    res.send('Welcome to File Sharing API Server')
 });
 
 // upload new file 
