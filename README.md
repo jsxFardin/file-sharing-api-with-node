@@ -13,8 +13,13 @@ make a copy of .env.example
 $ copy .env.example .env
 
 $ MODE=development
+# port (default 3000)
 $ PORT=3000
+# client url (default "http://localhost:3000")
+$ CLIENT_URL="http://localhost:3000"
+# file upload folder name (default "uploads")
 $ FOLDER="uploads"
+# mongo db url
 $ MONGO_URI=mongodb://localhost:27017/db_name
 # daily download limit (defalut 50)
 $ DAILY_DOWNLOAD_LIMIT=50
