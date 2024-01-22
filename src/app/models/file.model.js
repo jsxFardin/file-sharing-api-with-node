@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Define a Mongoose schema for your model
+// Define a Mongoose schema for model
 const FileSchema = new mongoose.Schema({
     publicKey: String,
     privateKey: String,
