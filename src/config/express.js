@@ -20,7 +20,7 @@ app.use(cors({
     origin: clientURL
 }));
 
-// Schedule the cleanup job to run every day at midnight
+// Schedule the cleanup job
 schedule.scheduleJob(cleanupSchedule, cleanupUploadedFiles);
 
 // mount api routes
