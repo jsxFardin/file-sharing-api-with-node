@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
 const File = require('../../app/models/file.model');
-const { mongo, inactivityPeriod } = require('../../config/vars');
+const { mongo } = require('../../config/vars');
 const { cleanupUploadedFiles } = require('../../app/schedulers/fileCleanup');
 
 describe('cleanupUploadedFiles', () => {
@@ -22,9 +22,17 @@ describe('cleanupUploadedFiles', () => {
         const unlinkStub = sinon.stub(fs, 'unlink').resolves();
 
         // Create a test file with an updatedAt date older than the threshold
+        const pastDate = new Date('2023-01-01');
         const outdatedFile = await File.create({
+            publicKey: 'dfsdfsdf',
+            privateKey: 'sdfsdf',
+            originalname: 'file.jpg',
+            mimetype: 'image/jpeg',
+            size: 12345,
+            filename: 'file.jpg',
             path: './src/test/integration/file.jpg',
-            updatedAt: new Date(Date.now() - (inactivityPeriod * 24 * 60 * 60 * 1000) - 1),
+            createdAt: pastDate,
+            updatedAt: pastDate,
         });
 
         // Run the cleanup function
@@ -35,6 +43,7 @@ describe('cleanupUploadedFiles', () => {
 
         // Assert that the file was deleted from the MongoDB collection
         const deletedFile = await File.findById(outdatedFile._id);
+
         expect(deletedFile).to.be.null;
 
         // Restore the original fs.unlink method
