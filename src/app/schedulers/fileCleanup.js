@@ -13,9 +13,8 @@ async function cleanupUploadedFiles() {
 
         console.log('thresholdDate : ', thresholdDate);
 
-
         // Find documents older than the threshold date
-        const outdatedDocuments = await File.find({ updatedAt: { $gte: thresholdDate } });
+        const outdatedDocuments = await File.find({ updatedAt: { $lt: thresholdDate } });
 
         // Iterate through outdated documents and remove associated files
         for (const document of outdatedDocuments) {
